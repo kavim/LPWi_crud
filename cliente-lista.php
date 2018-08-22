@@ -113,9 +113,10 @@ $lista = $clienteDao->select();
                                             <td><?php echo $cliente->getSaldo(); ?></td>
                                             <td>
                                                 
-                                                <button type="button" onclick="window.location='cliente-edita.php?id=<?php echo $cliente->getIdcliente(); ?>';" class="btn btn-outline btn-primary">Editar</button>
+                                                <!-- o id tava errado  -->
+                                                <button type="button" onclick="window.location='cliente-edita.php?idcliente=<?php echo $cliente->getIdcliente(); ?>';" class="btn btn-outline btn-primary">Editar</button>
                                                 
-                                                <button type="button" onclick="confirm('Deseja exclir este registro?') ? window.location='cliente-deleta-ok.php?id=<?php echo $cliente->getIdcliente(); ?>' : stop = false;" class="btn btn-outline btn-danger">Deletar</button>
+                                                <button type="button" onclick="confirm('Deseja exclir este registro?') ? window.location='cliente-deleta-ok.php?idcliente=<?php echo $cliente->getIdcliente(); ?>' : stop = false;" class="btn btn-outline btn-danger">Deletar</button>
                                                 
                                             </td>
                                         </tr>

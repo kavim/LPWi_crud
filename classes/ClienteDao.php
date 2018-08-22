@@ -5,7 +5,7 @@ class ClienteDao extends Db implements InterfaceDao {
     private $table = 'cliente';
 
     public function insert($cliente) {
-        echo 'oi';
+        
         $stmt = $this->conexao->prepare("INSERT INTO {$this->table} (nome, telefone, saldo) VALUES (:nome, :telefone, :saldo)");
 
         $stmt->bindValue(':nome', $cliente->getNome());
@@ -51,19 +51,18 @@ class ClienteDao extends Db implements InterfaceDao {
         return $clientes;
     }
 
-    public function selectById($cliente) {
+
+    // ALTERADO PQ ACHEI DESNECESSAURO CRIAR UMA CLASSE 2 VEZES
+    public function selectById($id) {
         $stmt = $this->conexao->prepare("SELECT * FROM $this->table WHERE idcliente = :idcliente");
 
-        $stmt->bindValue(':idcliente', $cliente->getIdcliente());
+        $stmt->bindValue(':idcliente', $id);
         $stmt->execute();
 
         $linha = $stmt->fetch();
 
-        $cliente = new Cliente();
-        $cliente->setNome($linha['nome']);
-        $cliente->setTelefone($linha['telefone']);
-        $cliente->setSaldo($linha['saldo']);
-        $cliente->setIdcliente($linha['idcliente']);
+        $cliente = new Cliente($linha['idcliente'],$linha['nome'],$linha['telefone'],$linha['saldo']);
+
 
         return $cliente;
     }

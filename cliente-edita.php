@@ -4,14 +4,23 @@ include_once 'classes/autoload.php';
 //Verifica se veio tudo preenchido do formulário
 if (isset($_GET['idcliente']) && $_GET['idcliente'] != "") {
 
-    $cliente = new Cliente();
-    $cliente->setIdcliente($_GET['idcliente']);
+    if($clienteDao = new ClienteDao()){
+        
+        if($userData = $clienteDao->selectById($_GET['idcliente'])){
+            echo "foi";
+        }else{echo 2;}
 
-    $clienteDao = new ClienteDao();
-    $userData = $clienteDao->selectById($cliente);
+    }else{
+        echo 1;
+    }
 
+    var_dump($userData);
 
+}else{
+    echo "sem parametros";
+    echo $_GET['idcliente'];
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
