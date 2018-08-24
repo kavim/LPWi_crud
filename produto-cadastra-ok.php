@@ -1,4 +1,9 @@
 <?php
+
+//coisas pra fazer aqui... mostrar oq foi cadastrado e um lisk pra lista de coisas caastradas
+//vamo trabalha esse UX
+
+
 include_once 'classes/autoload.php';
 
 
@@ -32,7 +37,17 @@ if (isset($_FILES['imagem'])&& $_FILES['imagem']['name'] !=""){
     $produto->setImagem($nomeArquivo);
 
     $produtoDao = new ProdutoDao();
-    $produtoDao->insert($produto);
+    if($produtoDao){
+        if($produtoDao->insert($produto)){
+            $msg = true;
+        }else{
+            $msg = false;
+        }
+    }else{
+        echo "erro1";
+    }
+    
+    
 }
 ?>
 
@@ -122,7 +137,16 @@ if (isset($_FILES['imagem'])&& $_FILES['imagem']['name'] !=""){
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-lg-6">
-                                        Produto Cadastrado!
+                                        <?php 
+                                            if($msg){
+                                                echo "<h2 class='text-success'> Produto Cadastrado! <b>".$produto->getNome()."</b> Cadastrado!</h2>".
+                                                "<br>".
+                                                "<img src='upload/".$produto->getImagem()."' width='150'>";
+                                            }else{
+                                                echo "<h2 class='text-danger'> <i class='fa fa-exclamation-triangle' aria-hidden='true'></i>
+                                                 erro ao cadastrar</h2>";
+                                            }
+                                        ?>
                                     </div>
                                 </div>
                             </div>

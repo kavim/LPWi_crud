@@ -1,25 +1,3 @@
-<?php
-include_once 'classes/autoload.php';
-
-
-//Verifica se veio tudo preenchido do formulário
-if (   !Validate::isEmpty('dataVenda')
-    && !Validate::isEmpty('valorFilal')
-    && !Validate::isEmpty('idcliente')
-    ) {
-
-
-
-    $venda = new Venda();
-    $venda->setvenda($_POST['dataVenda']);
-    $venda->setDescricao($_POST['valorFilal']);
-    $venda->setCategoria($_POST['idcliente']);
-
-    $vendaDao = new VendaDao();
-    $vendaDao->insert($venda);
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -106,7 +84,60 @@ if (   !Validate::isEmpty('dataVenda')
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-lg-6">
+                                    <?php
+                                        include_once 'classes/autoload.php';
+
+
+                                        //Verifica se veio tudo preenchido do formulário
+                                        if (   !Validate::isEmpty('dataVenda')
+                                            && !Validate::isEmpty('idcliente')
+                                            && !Validate::isEmpty('idproduto')
+                                            && !Validate::isEmpty('quantidade')
+                                            ) {
+
+                                            $produtos = new ProdutoDao();
+
+                                            $prod = $produtos->selectById($_POST['idproduto']);
+                                            echo "<pre>";
+                                            var_dump($prod);
+                                            echo "<pre>";
+                                            
+                                            if(!$_POST['quantidade'] >= $prod->estoqueAtual){
+                                                echo "quantidade acima do limite";
+                                                exit;
+                                            }
+
+                                            $valorFinal = $prod->getvalorVenda() * $_POST['quantidade'];
+
+
+                                            $venda = new Venda();
+                                            $venda->setDataVenda(date('H:i:s'));
+                                            $venda->setValorFinal($valorFinal);
+                                            $venda->setCliente($_POST['idcliente']);
+
+                                            $vendaDao = new VendaDao();
+
+                                            if($vendaDao->insert($venda)){
+                                            
+                                                $ultima = $vendaDao->ultima();
+
+                                                if($vendaDao->vendaProdutos($ultima, $_POST['idproduto'])){
+                                                    echo "foi";
+                                                }else{
+                                                    echo "eroo2";
+                                                }
+
+                                            }else{
+                                                echo "erro ao cadastrar";
+                                            }
+
+                                            
+
+
+                                        }
+                                        ?>
                                         venda Cadastrado!
+                                        
                                     </div>
                                 </div>
                             </div>

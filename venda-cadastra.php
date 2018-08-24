@@ -4,6 +4,12 @@ include_once 'classes/autoload.php';
 
 $clienteDao = new ClienteDao();
 $clientes = $clienteDao->select();
+
+
+$produtoDao = new ProdutoDao();
+$produtos = $produtoDao->select();
+
+var_dump($produtos);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -92,19 +98,8 @@ $clientes = $clienteDao->select();
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <form role="form" action="venda-cadastra-ok.php" method="POST" enctype="multipart/form-data">
+                                            
                                             <div class="form-group">
-                                                <label>dataVenda</label>
-                                                <input class="form-control" placeholder="venda" name="dataVenda" required="true">
-                                            </div>
-
-                                             <div class="form-group">
-                                                <label>valorFilal</label>
-                                                <input class="form-control" placeholder="Descrição" name="valorFilal" required="true">
-                                            </div>
-
-
-
-                                             <div class="form-group">
                                                 <label>Clientente</label>
                                                 <select name="idcliente">
                                                     <?php foreach($clientes as $cliente) : ?>
@@ -112,6 +107,22 @@ $clientes = $clienteDao->select();
                                                     <?php endforeach; ?>
                                                 </select>
                                             </div>
+
+                                            <div class="form-group">
+                                                <label>Prod</label>
+                                                <select name="idproduto">
+                                                    <?php foreach($produtos as $produto) : ?>
+                                                        <option  value="<?php echo $produto->getIdproduto(); ?>"><?php echo $produto->getNome(); ?></option>
+
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>quantidade</label>
+                                                <input class="form-control" placeholder="venda" id="quantidade" name="quantidade" required="true">
+                                            </div>
+                                             
 
                                             <button type="submit" class="btn btn-default">Salvar</button>
 
@@ -134,6 +145,15 @@ $clientes = $clienteDao->select();
             <script src="www/vendor/metisMenu/metisMenu.min.js"></script>
             <!-- Custom Theme JavaScript -->
             <script src="www/dist/js/sb-admin-2.js"></script>
+            
+            <script>
+            $(docment).read(function(){
+                $('#valorFilal').find(function(){
+                    alert("adawdawd");
+                });
+            });
+            </script>
+            
 
     </body>
 

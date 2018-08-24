@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `lpwi`.`produto` (
   `idproduto` INT NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(45) NULL,
   `fornecedor` VARCHAR(45) NULL,
-  `calorCusto` INT NULL,
+  `valorCusto` INT NULL,
   `valorVenda` INT NULL,
   `estoqueAtual` INT NULL,
   `imagem` TEXT NULL,
@@ -67,10 +67,9 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `lpwi`.`vendaProdutos` (
   `venda_idvenda` INT NOT NULL,
-  `idvendaProduto` INT NOT NULL,
   `produto_idproduto` INT NOT NULL,
   `qantidade` INT NULL,
-  PRIMARY KEY (`venda_idvenda`, `idvendaProduto`, `produto_idproduto`),
+  PRIMARY KEY (`venda_idvenda`, `produto_idproduto`),
   INDEX `fk_venda_has_produto_produto1_idx` (`produto_idproduto` ASC),
   INDEX `fk_venda_has_produto_venda1_idx` (`venda_idvenda` ASC, `idvendaProduto` ASC),
   CONSTRAINT `fk_venda_has_produto_venda1`

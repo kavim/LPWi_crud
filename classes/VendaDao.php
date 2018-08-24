@@ -6,12 +6,11 @@ class VendaDao extends Db implements InterfaceDao {
 
     public function insert($venda) {
         $stmt = $this->conexao->prepare("INSERT INTO {$this->table} "
-        . " (valorFilal, dataVenda, idcliente) "
-         . " VALUES (:valorFilal, :dataVenda, :idcliente)");
+        . " ( `dataVenda`, `valorFinal`, `cliente_idcliente`) "
+        . " VALUES (:dataVenda, :valorFilal, :idcliente)");
 
         $stmt->bindValue(':valorFilal', $venda->getValorFinal());
         $stmt->bindValue(':dataVenda', $venda->getDataVenda());
-        $stmt->bindValue(':preco', $venda->getValorFinal());
         $stmt->bindValue(':idcliente', $venda->getcliente());
 
         return $stmt->execute();
@@ -75,6 +74,22 @@ class VendaDao extends Db implements InterfaceDao {
         return $venda;
     }
 
+    public function ultima() {
+        $stmt = $this->conexao->prepare("SELECT * FROM $this->table order by idvenda DESC LIMIT 1");
+
+        $stmt->execute();
+
+        $linha = $stmt->fetch();
+
+        // $venda = new Venda();
+        // $venda->setValorFinal($linha['valorFilal']);
+        // $venda->setDataVenda($linha['dataVenda']);
+        // $venda->setIdvenda($linha['idvenda']);
+
+        // return $venda;
+        return $linha['idvenda'];
+    }
+
     public function selectByCliente($cliente) {
         $stmt = $this->conexao->prepare("SELECT * FROM $this->table where idcliente = :idcliente");
 
@@ -93,5 +108,19 @@ class VendaDao extends Db implements InterfaceDao {
             $vendas[] = $venda;
         }
         return $vendas;
+    }
+
+    public function vendaProdutos($venda_idvenda, $produto_idproduto){
+        $stmt = $this->conexao->prepare("INSERT INTO `vendaProdutos`(`venda_idvenda`, `produto_idproduto`) VALUES ($venda_idvenda,$produto_idproduto)");
+
+        return $stmt->execute();
+
+    }
+
+    public function all(){
+        $stmt = $this->conexao->prepare("");
+
+        return $stmt->execute();
+
     }
 }

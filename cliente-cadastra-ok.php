@@ -49,10 +49,6 @@ if (isset($_POST['nome']) && $_POST['nome'] != ""
 include 'template/head.php';
 include 'template/nav.php';
 ?>
-
-        
-            
-
             <div id="page-wrapper">
                 <div class="row">
                     <div class="col-lg-12">

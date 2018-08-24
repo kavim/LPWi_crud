@@ -4,6 +4,9 @@ class Venda {
     private $idvenda;
     private $dataVenda;
     private $valorFinal;
+    private $cliente;
+    private $quantidade;
+
 
     function getIdvenda() {
         return $this->idvenda;
@@ -14,10 +17,13 @@ class Venda {
     }
 
     function getValorFinal() {
-        return $this->valorFilal;
+        return $this->valorFinal;
     }
     function getCliente() {
         return $this->cliente;
+    }
+    function getQuantidade() {
+        return $this->quantidade;
     }
 
     function setIdvenda($idvenda) {
@@ -29,10 +35,13 @@ class Venda {
     }
 
     function setValorFinal($valorFinal) {
-        $this->valorFilal = $valorFinal;
+        $this->valorFinal = $valorFinal;
     }
     function setCliente($cliente) {
-        $this->ccliente = $cliente;
+        $this->cliente = $cliente;
+    }
+    function setQuantidade($quantidade) {
+        $this->quantidade = $quantidade;
     }
 
 

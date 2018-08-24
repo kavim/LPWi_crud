@@ -6,6 +6,9 @@ $lista = $vendaDao->select();
 
 $clienteDao = new ClienteDao();
 $clientes = $clienteDao->select();
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -99,9 +102,10 @@ $clientes = $clienteDao->select();
                                     <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>data</th>
                                             <th>valorFilal</th>
+                                            <th>data</th>
                                             <th>cliente</th>
+                                            <th>acoes</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -109,11 +113,12 @@ $clientes = $clienteDao->select();
 
                                         <tr>
                                             <td><?php echo $venda->getIdvenda(); ?></td>
-                                            <td><?php echo $venda->getDataVenda(); ?></td>
                                             <td><?php echo $venda->getValorFinal(); ?></td>
-                                            <td><?php foreach($clientes as $cliente) : ?>
-                                            <?php echo $cliente->getNome(); ?>
-                                            <?php endforeach; ?></td>
+                                            <td><?php echo $venda->getDataVenda(); ?></td>
+                                            <td>
+                                                <?php foreach($clientes as $cliente) : ?>
+                                                <?php echo $cliente->getNome(); ?>
+                                                <?php endforeach; ?></td>
                                             <td>
                                             <button type="button" onclick="window.location='venda-edita.php?id=<?php echo $venda->getId(); ?>';" class="btn btn-outline btn-primary
 ">Editar</button>

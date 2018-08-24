@@ -19,7 +19,7 @@ class Produto {
         return $this->fornecedor;
     }
 
-    function getValorCusto() {
+    function getvalorCusto() {
         return $this->valorCusto;
     }
 
