@@ -33,7 +33,7 @@ class ProdutoDao extends Db implements InterfaceDao {
                 . "WHERE idproduto = :idproduto;");
 
         $stmt->bindValue(':idproduto', $produto->getIdproduto());
-        $stmt->bindValue(':nome', $nome->getProduto());
+        $stmt->bindValue(':nome', $nome->getNome());
         $stmt->bindValue(':fornecedor', $produto->getFornecedor());
         $stmt->bindValue(':valorCusto', $produto->getvalorCusto());
         $stmt->bindValue(':valorVenda', $produto->getValorVenda());
@@ -92,4 +92,16 @@ class ProdutoDao extends Db implements InterfaceDao {
 
         return $produto;
     }
+
+    public function updateQuantity($id, $quantity) {
+
+        $stmt = $this->conexao->prepare("UPDATE produto SET estoqueAtual = :estoqueAtual WHERE idproduto = :idproduto");
+      
+        $stmt->bindValue(':idproduto', $id);
+        $stmt->bindValue(':estoqueAtual', $quantity);
+
+        return $stmt->execute();
+    }
+
+
 }

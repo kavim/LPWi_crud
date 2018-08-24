@@ -110,10 +110,10 @@ var_dump($produtos);
 
                                             <div class="form-group">
                                                 <label>Prod</label>
-                                                <select name="idproduto">
+                                                <select name="idproduto" id="prod">
+                                                <option  selected="true" disabled="disabled">escolha um prods</option>  
                                                     <?php foreach($produtos as $produto) : ?>
-                                                        <option  value="<?php echo $produto->getIdproduto(); ?>"><?php echo $produto->getNome(); ?></option>
-
+                                                        <option  value="<?php echo $produto->getIdproduto(); ?>" id='lala'><?php echo $produto->getNome(); ?></option>
                                                     <?php endforeach; ?>
                                                 </select>
                                             </div>
@@ -147,11 +147,13 @@ var_dump($produtos);
             <script src="www/dist/js/sb-admin-2.js"></script>
             
             <script>
-            $(docment).read(function(){
-                $('#valorFilal').find(function(){
-                    alert("adawdawd");
+            $(document).ready( function() {
+
+                $('#prod').on('change', function() {
+                    console.log('aiuwdhaiuwdhiauwhd');
                 });
             });
+
             </script>
             
 

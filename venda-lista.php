@@ -4,6 +4,8 @@ include_once 'classes/autoload.php';
 $vendaDao = new VendaDao();
 $lista = $vendaDao->select();
 
+
+
 $clienteDao = new ClienteDao();
 $clientes = $clienteDao->select();
 
@@ -118,11 +120,7 @@ $clientes = $clienteDao->select();
                                             <td>
                                                 <?php foreach($clientes as $cliente) : ?>
                                                 <?php echo $cliente->getNome(); ?>
-                                                <?php endforeach; ?></td>
-                                            <td>
-                                            <button type="button" onclick="window.location='venda-edita.php?id=<?php echo $venda->getId(); ?>';" class="btn btn-outline btn-primary
-">Editar</button>
-<button type="button" onclick="confirm('Deseja exclir este registro?') ? window.location='venda-deleta-ok.php?id=<?php echo $venda->getId(); ?>' : stop = false;" class="btn btn-outline btn-danger">Deletar</button>
+                                                <?php endforeach; ?>
                                             </td>
                                         </tr>
                                        <?php endforeach; ?>

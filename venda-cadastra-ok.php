@@ -1,3 +1,60 @@
+<?php
+                                        include_once 'classes/autoload.php';
+
+
+                                        //Verifica se veio tudo preenchido do formulário
+                                        if (   !Validate::isEmpty('idcliente')
+                                            && !Validate::isEmpty('idproduto')
+                                            && !Validate::isEmpty('quantidade')
+                                            ) {
+
+                                            $produtos = new ProdutoDao();
+
+                                            $prod = $produtos->selectById($_POST['idproduto']);
+
+                                           
+                                                                                       
+                                            if($_POST['quantidade'] > $prod->getEstoqueAtual()){
+                                                echo "quantidade acima do limite";
+                                                echo "<a href='/'>voltar<a>";
+                                                exit;
+                                            }
+
+                                            $valorFinal = $prod->getvalorVenda() * $_POST['quantidade'];
+                                            $atual = $prod->getEstoqueAtual() - $_POST['quantidade'];                                      
+
+                                            $venda = new Venda();
+                                            $venda->setDataVenda(date('H:i:s'));
+                                            $venda->setValorFinal($valorFinal);
+                                            $venda->setCliente($_POST['idcliente']);
+
+                                            $vendaDao = new VendaDao();
+
+                                            if($vendaDao->insert($venda)){
+                                            
+                                                $ultima = $vendaDao->ultima();
+
+                                                if($vendaDao->vendaProdutos($ultima, $_POST['idproduto'])){                                                   
+                                                        
+                                                        if($produtos->updateQuantity($_POST['idproduto'], $atual)){
+                                                            $msg =true;
+                                                        }else{
+                                                            echo "atualizar de erro;";
+                                                        }
+                                                    
+                                                }else{
+                                                    $msg =false;
+                                                }
+
+                                            }else{
+                                                echo "erro ao cadastrar";
+                                            }
+
+                                            
+
+
+                                        }
+                                        ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -85,59 +142,17 @@
                                 <div class="row">
                                     <div class="col-lg-6">
                                     <?php
-                                        include_once 'classes/autoload.php';
-
-
-                                        //Verifica se veio tudo preenchido do formulário
-                                        if (   !Validate::isEmpty('dataVenda')
-                                            && !Validate::isEmpty('idcliente')
-                                            && !Validate::isEmpty('idproduto')
-                                            && !Validate::isEmpty('quantidade')
-                                            ) {
-
-                                            $produtos = new ProdutoDao();
-
-                                            $prod = $produtos->selectById($_POST['idproduto']);
-                                            echo "<pre>";
-                                            var_dump($prod);
-                                            echo "<pre>";
-                                            
-                                            if(!$_POST['quantidade'] >= $prod->estoqueAtual){
-                                                echo "quantidade acima do limite";
-                                                exit;
-                                            }
-
-                                            $valorFinal = $prod->getvalorVenda() * $_POST['quantidade'];
-
-
-                                            $venda = new Venda();
-                                            $venda->setDataVenda(date('H:i:s'));
-                                            $venda->setValorFinal($valorFinal);
-                                            $venda->setCliente($_POST['idcliente']);
-
-                                            $vendaDao = new VendaDao();
-
-                                            if($vendaDao->insert($venda)){
-                                            
-                                                $ultima = $vendaDao->ultima();
-
-                                                if($vendaDao->vendaProdutos($ultima, $_POST['idproduto'])){
-                                                    echo "foi";
-                                                }else{
-                                                    echo "eroo2";
-                                                }
-
-                                            }else{
-                                                echo "erro ao cadastrar";
-                                            }
-
-                                            
-
-
+                                        if($msg){
+                                            echo "<h2 class='text-success'> Venda de <b>".$prod->getNome()."</b> Cadastrado!</h2>".
+                                            "<br>".
+                                            "<img src='upload/".$prod->getImagem()."' width='150'>";
+                                            echo "<p> quantidade : ".$_POST['quantidade']."</p>";
+                                            echo "<h1> total : R$".$venda->getValorFinal().",00</h1>";
+                                        }else{
+                                            echo "<h2 class='text-danger'> <i class='fa fa-exclamation-triangle' aria-hidden='true'></i>
+                                             erro ao cadastrar</h2>";
                                         }
-                                        ?>
-                                        venda Cadastrado!
-                                        
+                                    ?>
                                     </div>
                                 </div>
                             </div>
